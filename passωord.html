@@ -2,33 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Protected Page</title>
+  <title>Weekly Password Protected Page</title>
   <style>
-    body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
+    body { font-family: sans-serif; padding: 2rem; background: #f4f4f4; }
     #protected-content { display: none; margin-top: 2rem; }
   </style>
 </head>
 <body>
-  <h1>Password Required</h1>
-  <input type="password" id="password" placeholder="Enter password">
+  <h1>Weekly Password Required</h1>
+  <input type="text" id="password" placeholder="Enter password" />
   <button onclick="checkPassword()">Submit</button>
 
   <div id="protected-content">
     <h2>✅ Access Granted</h2>
-    <p>This is the secret content.</p>
+    <p>This is the secret content for this week.</p>
   </div>
 
   <script>
-    const correctPassword = "letmein"; // <-- Change this to your desired password
+    function getWeekNumber(date) {
+      const firstJan = new Date(date.getFullYear(), 0, 1);
+      const pastDaysOfYear = (date - firstJan) / 86400000;
+      return Math.ceil((pastDaysOfYear + firstJan.getDay() + 1) / 7);
+    }
+
+    function generatePassword() {
+      const now = new Date();
+      const week = getWeekNumber(now);
+      const day = now.getDate();
+      const numberPart = week * 514 + day;
+      return `i goon to femboys${numberPart}`;
+    }
 
     function checkPassword() {
-      const input = document.getElementById("password").value;
-      if (input === correctPassword) {
+      const userInput = document.getElementById("password").value;
+      const correctPassword = generatePassword();
+      if (userInput === correctPassword) {
         document.getElementById("protected-content").style.display = "block";
         document.querySelector("input").style.display = "none";
         document.querySelector("button").style.display = "none";
       } else {
-        // Redirect to lol.html on wrong password
         window.location.href = "lol.html";
       }
     }
