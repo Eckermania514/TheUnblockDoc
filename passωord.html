@@ -9,13 +9,14 @@
   </style>
 </head>
 <body>
-  <h1>Weekly Password Required</h1>
+  <h1>Password Required</h1>
+  <p>The password changes every week. Please email eckermania514@gmail.com for help</p>
   <input type="text" id="password" placeholder="Enter password" />
   <button onclick="checkPassword()">Submit</button>
 
   <div id="protected-content">
-    <h2>✅ Access Granted</h2>
-    <p>This is the secret content for this week.</p>
+    <h2>Welcome to The Unblock Doc!</h2>
+    <p>No current working methods. Please check back later</p>
   </div>
 
   <script>
@@ -30,7 +31,7 @@
       const week = getWeekNumber(now);
       const day = now.getDate();
       const numberPart = week * 514 + day;
-      return `i goon to femboys${numberPart}`;
+      return `igoontofemboys${numberPart}`;
     }
 
     function checkPassword() {
