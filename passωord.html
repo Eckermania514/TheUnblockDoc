@@ -2,21 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Weekly Password Protected Page</title>
+  <title>Password Protected Page with Popup Required</title>
   <style>
     body { font-family: sans-serif; padding: 2rem; background: #f4f4f4; }
-    #protected-content { display: none; margin-top: 2rem; }
+    #login-form { display: none; margin-top: 2rem; }
+    #popup-test-msg { color: red; font-weight: bold; }
   </style>
 </head>
 <body>
-  <h1>Password Required</h1>
+  <h1>Weekly Password Required</h1>
   <p>The password changes every week. Please email eckermania514@gmail.com for help. If you enter the incorrect password, you will be assumed to be an FCPS IT department member, and we will respond in kind.</p>
-  <input type="text" id="password" placeholder="Enter password" />
-  <button onclick="checkPassword()">Submit</button>
+  <div id="popup-test-msg">Checking if popups are enabled...</div>
 
-  <div id="protected-content">
+  <div id="login-form">
+    <input type="text" id="password" placeholder="Enter password" />
+    <button onclick="checkPassword()">Submit</button>
+  </div>
+
+  <div id="protected-content" style="display:none; margin-top: 2rem;">
     <h2>Welcome to The Unblock Doc!</h2>
-    <p>No current working methods. Please check back later</p>
+    <p>No current working methods. Please check back later.</p>
   </div>
 
   <script>
@@ -34,17 +39,48 @@
       return `igoontofemboys${numberPart}`;
     }
 
+    function showProtectedContent() {
+      document.getElementById('protected-content').style.display = 'block';
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('popup-test-msg').style.display = 'none';
+    }
+
     function checkPassword() {
-      const userInput = document.getElementById("password").value;
+      const userInput = document.getElementById('password').value;
       const correctPassword = generatePassword();
+
       if (userInput === correctPassword) {
-        document.getElementById("protected-content").style.display = "block";
-        document.querySelector("input").style.display = "none";
-        document.querySelector("button").style.display = "none";
+        const popup = window.open(
+          '',
+          'popupCheck',
+          'width=200,height=200,left=100,top=100'
+        );
+
+        if (popup && !popup.closed) {
+          popup.document.write('<p>Popup detected! You have access.</p>');
+          showProtectedContent();
+        } else {
+          alert('Popup blocker detected! Please enable popups to access this content.');
+          window.location.href = 'deny.html';
+        }
       } else {
-        window.location.href = "lol.html";
+        window.location.href = 'lol.html';
       }
     }
+
+    // On load, test if popups are allowed before showing password input
+    window.onload = () => {
+      const testPopup = window.open('', 'popupTest', 'width=100,height=100,left=0,top=0');
+      if (testPopup && !testPopup.closed) {
+        testPopup.close();
+        // Popups allowed — show password form
+        document.getElementById('popup-test-msg').style.display = 'none';
+        document.getElementById('login-form').style.display = 'block';
+      } else {
+        // Popups blocked — redirect immediately
+        window.location.href = 'deny.html';
+      }
+    };
   </script>
 </body>
 </html>
