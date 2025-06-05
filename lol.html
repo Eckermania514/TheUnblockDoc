@@ -11,10 +11,9 @@
   <script>
     const popupWidth = 200;
     const popupHeight = 200;
-
+    const screenWidth = window.screen.availWidth;
+    const screenHeight = window.screen.availHeight;
     function openRandomPopup() {
-      const screenWidth = window.screen.availWidth;
-      const screenHeight = window.screen.availHeight;
 
       const x = Math.floor(Math.random() * (screenWidth - popupWidth));
       const y = Math.floor(Math.random() * (screenHeight - popupHeight));
