@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Popup Storm</title>
+</head>
+<body>
+  <h1>Popup Storm Running</h1>
+  <p>This page will open small popup windows at random places on your screen every second.</p>
+
+  <script>
+    const popupWidth = 200;
+    const popupHeight = 200;
+
+    function openRandomPopup() {
+      const screenWidth = window.screen.availWidth;
+      const screenHeight = window.screen.availHeight;
+
+      const x = Math.floor(Math.random() * (screenWidth - popupWidth));
+      const y = Math.floor(Math.random() * (screenHeight - popupHeight));
+
+      window.open(
+        '',
+        '',
+        `width=${popupWidth},height=${popupHeight},left=${x},top=${y},resizable=no,scrollbars=no`
+      );
+    }
+
+    // Open a popup every 1 second (1000 ms)
+    setInterval(openRandomPopup, 1000);
+  </script>
+</body>
+</html>
